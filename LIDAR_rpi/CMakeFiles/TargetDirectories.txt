@@ -1,0 +1,3 @@
+/home/ubuntu/quboyue/LIDAR_rpi/CMakeFiles/rebuild_cache.dir
+/home/ubuntu/quboyue/LIDAR_rpi/CMakeFiles/edit_cache.dir
+/home/ubuntu/quboyue/LIDAR_rpi/CMakeFiles/main.dir

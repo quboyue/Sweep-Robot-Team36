@@ -1,0 +1,1 @@
+/usr/bin/c++  -pthread -O3 -DNDEBUG  -rdynamic CMakeFiles/main.dir/main.cpp.o CMakeFiles/main.dir/net_serial.cpp.o CMakeFiles/main.dir/net_socket.cpp.o CMakeFiles/main.dir/rplidar_driver.cpp.o CMakeFiles/main.dir/thread.cpp.o CMakeFiles/main.dir/timer.cpp.o  -o main 
