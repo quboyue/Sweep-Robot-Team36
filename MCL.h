@@ -10,4 +10,4 @@ using namespace std;
 float  mod(float first_term, float second_term);
 double gen_real_random();
 vector<float> max(vector<float> Weight, int n);
-int MCL_Main(float &startx, float &starty, vector<vector<float>> &nowset,float &positionX,float &positionY);
+int MCL_Main(vector<vector<float>> &nowset, float &positionX, float &positionY,bool &MCL_ready);

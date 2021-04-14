@@ -1,6 +1,7 @@
-
+#include "Data_smooth.h"
 #include "MCL.h"
 #include "Display.h"
+#include <opencv2/highgui/highgui_c.h>
 using namespace cv;
 using namespace std;
 #define PI acos(-1)
@@ -89,112 +90,115 @@ vector<float> max(vector<float> Weight, int n)
 	return result;
 }
 
-int MCL_Main(float &startx,float &starty,vector<vector<float>> &nowset, float &positionX, float &positionY)
+int MCL_Main(vector<vector<float>> &nowset, float &positionX, float &positionY,bool &MCL_ready)
 {
 
-	float move_x;
-	float move_y;
+	vector<float> positionX_filter;
+	vector<float> positionY_filter;
 	vector<float> max_point;
 	vector<vector<float>> frame(2);
 	vector<vector<float>> Map(1000, vector<float>(1000));
 	vector<float> Weight;
 	int step = 0;
-	const int n = 500;
-	ifstream myfile("Map.txt");
+	const int n = 250;
+
 	Robot p[n];
 
 	for (int i = 0; i < n; i++)
 		p[i].general_location(400, 250, 750, 750);
-	std::cout << "Initalize All particle ---\n";
+
+	Mat B_channel = cv::imread("test2.png");
+
+	vector<Mat> channels;
+	split(B_channel, channels);
+
+	B_channel = channels.at(0);
+	cv::blur(B_channel, B_channel, cv::Size(2, 2), cv::Point(-1, -1));
 
 	for (int i = 0; i < 1000; i++)
 	{
 		for (int j = 0; j < 1000; j++)
 		{
-			myfile >> Map[i][j];
+			Map[i][j] = B_channel.at<uchar>(i,j);
 			if (Map[i][j] == 128)
 				Map[i][j] = 0;
 		}
-	}//¶Ámap
-
-
-	Mat pic(1000, 1000, CV_8UC3, cv::Scalar(0));
-	cv::namedWindow("Location", CV_WINDOW_NORMAL);
-	cv::resizeWindow("Location", 600, 600);
-	cv::moveWindow("Location", 0, 0);
-	std::cout << "all_done" << endl;
-
-
+	}
 	
+
+
+
+	//cv::namedWindow("Location", CV_WINDOW_NORMAL);
+	//cv::resizeWindow("Location", 450, 450);
+	//cv::moveWindow("Location", 0, 0);
+	//std::cout << "all_done" << endl;
+
+
+
+
 
 	while (1)
 	{
 
-		MTX.lock();
-		frame = nowset;
-		MTX.unlock();
-		cout << "frame size" << frame.size() << "   " << frame[0].size() << endl;
-
-
-		for (int i = 0; i < 1000; i++)
+		while (1)
 		{
-			for (int j = 0; j < 1000; j++)
-			{
-				pic.at<Vec3b>(i, j) = Map[i][j];
-			}
+			MTX.lock();
+			frame = nowset;
+			MTX.unlock();
+			if (frame[0].size()) 
+				break;
 		}
 
-		//move_x = frame[0][0]- frameslist[step][0][0];
-		//move_y = frame[1][0]- frameslist[step][1][0];
-		move_x = 0;
-		move_y = 0;
+//		Mat G_channel(1000, 1000, CV_8UC1, cv::Scalar(0));
+//		Mat R_channel(1000, 1000, CV_8UC1, cv::Scalar(0));
 
-		//GetDistOf2DPointsSet(frame, lastframe, labels[]);
-		cout << "move_x  " << move_x << " move_y " << move_y << endl;
-		
 
 		for (int i = 0; i < n; i++)
 		{
 			//p[i].move(move_x,move_y,1000);
 			p[i].measure(frame, Map);
-			pic.at<Vec3b>(p[i].x, p[i].y)[2] = 255;
+//			R_channel.at<uchar>(p[i].x, p[i].y) = 255;
 			Weight.push_back(p[i].match_rate);
-
 		}
 
 		max_point = max(Weight, n);
-		cout << max_point[0] << "  Max Weight (match_rate)" << endl;
 		Weight.clear();
 
+		MTX.lock();
+		positionX = p[int(max_point[1])].x;
+		positionX =float_smooth(positionX_filter, positionX, 6);
+		positionY = p[int(max_point[1])].y;
+		positionY=float_smooth(positionY_filter, positionY, 6);
+		MTX.unlock();
+/*
 		for (int i = 0; i < frame[0].size(); i++)
 		{
-			if ((frame[0][i] + p[int(max_point[1])].x) < 1000 && (frame[0][i]+ p[int(max_point[1])].x)>0 && (frame[1][i]  + p[int(max_point[1])].y) < 1000 && (frame[1][i] + p[int(max_point[1])].y)>0)
+			if ((frame[0][i] + positionX) < 1000 && (frame[0][i]+ positionX)>0 && (frame[1][i]  + positionY) < 1000 && (frame[1][i] + positionY)>0)
 			{
-				pic.at<Vec3b>(frame[0][i] + p[int(max_point[1])].x, frame[1][i]+ p[int(max_point[1])].y)[1] = 255;
+				G_channel.at<uchar>(frame[0][i] + positionX, frame[1][i]+ positionY)= 255;
 			}
 
 		}
-		MTX.lock();
-		positionX = p[int(max_point[1])].x;
-		positionY = p[int(max_point[1])].y;
-		MTX.unlock();
-		Point max_point_pos(p[int(max_point[1])].y, p[int(max_point[1])].x);
-		circle(pic, max_point_pos, 3, Scalar(0, 0, 255), -1);
-		
 
 
+	   circle(R_channel, Point(positionY, positionX), 3,255, -1);
+	   cv::putText(G_channel, "Position "+to_string(positionX)+"  "+to_string(positionY), cv::Point(0, 50), cv::FONT_HERSHEY_TRIPLEX, 2, cv::Scalar(255), 0.001, CV_AA);
+	   vector<Mat> MergeList= { B_channel,G_channel,R_channel };
+	   Mat MergePic;
 
-		cv::imshow("Location", pic);
+		cv::merge(MergeList, MergePic);
+		cv::imshow("Location", MergePic);
 		cv::waitKey(1);
+*/
 		float startx, starty, limitx, limity;
 		for (int i = 0; i < n; i++)
 		{
 			if (p[i].field > 10)
 			{
-				startx = p[int(max_point[1])].x - (p[i].field*0.7 / 2);
-				starty = p[int(max_point[1])].y - (p[i].field*0.7 / 2);
-				limitx = p[int(max_point[1])].x + (p[i].field*0.7 / 2);
-				limity = p[int(max_point[1])].y + (p[i].field*0.7 / 2);
+				startx = positionX - (p[i].field*0.9 / 2);
+				starty = positionY - (p[i].field*0.9 / 2);
+				limitx = positionX + (p[i].field*0.9 / 2);
+				limity = positionY + (p[i].field*0.9 / 2);
 				if (startx < 0) startx = 0;
 				if (starty < 0) starty = 0;
 				if (limitx > 1000) limitx = 1000;
@@ -203,23 +207,26 @@ int MCL_Main(float &startx,float &starty,vector<vector<float>> &nowset, float &p
 			}
 			else
 			{
-				startx = p[int(max_point[1])].x - 5;
-				starty = p[int(max_point[1])].y - 5;
-				limitx = p[int(max_point[1])].x + 5;
-				limity = p[int(max_point[1])].y + 5;
+				MCL_ready = true;
+				startx = positionX - 5;
+				starty = positionY - 5;
+				limitx = positionX + 5;
+				limity = positionY + 5;
 				if (startx < 0) startx = 0;
 				if (starty < 0) starty = 0;
 				if (limitx > 1000) limitx = 1000;
 				if (limity > 1000) limity = 1000;
 				p[i].general_location(startx, starty, limitx, limity);
 
+
 			}
 		}
-
-
+		cv::waitKey(100);
+                if(MCL_ready==0)
+		  cout << "   MCL-- position " << positionX << "   " << positionY << endl;
 	}
 
-	std::system("pause");
+	
 	return 0;
 }
 
