@@ -63,7 +63,7 @@ The project is based on the **Raspberry Pi 3**, using **3D printing model** and 
 
 
 
-<div align=center><img width="700" height="500" src="https://github.com/Nuko-XCB/material/blob/main/Hardware%20connection.png"/></div>
+<img width="700" height="500" src="https://github.com/Nuko-XCB/material/blob/main/Hardware%20connection.png"/></div>
 
 
 
