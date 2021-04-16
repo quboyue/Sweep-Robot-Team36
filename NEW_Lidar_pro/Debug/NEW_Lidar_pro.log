@@ -1,0 +1,22 @@
+﻿  DWA.cpp
+d:\vs\new_lidar_pro\packages\opencv3.1.1.0\build\native\include\opencv2\core\mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+d:\vs\new_lidar_pro\packages\opencv3.1.1.0\build\native\include\opencv2\core\persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+d:\vs\new_lidar_pro\packages\opencv3.1.1.0\build\native\include\opencv2\core\utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+d:\vs\new_lidar_pro\packages\opencv3.1.1.0\build\native\include\opencv2\core\utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(10): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(97): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(97): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(98): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(98): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(103): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(104): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(105): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(107): warning C4018: “<”: 有符号/无符号不匹配
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(125): warning C4018: “<”: 有符号/无符号不匹配
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(134): warning C4018: “<”: 有符号/无符号不匹配
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(155): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(155): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(157): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+d:\vs\new_lidar_pro\new_lidar_pro\dwa.cpp(163): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  NEW_Lidar_pro.vcxproj -> D:\vs\NEW_Lidar_pro\Debug\NEW_Lidar_pro.exe
+  NEW_Lidar_pro.vcxproj -> D:\vs\NEW_Lidar_pro\Debug\NEW_Lidar_pro.pdb (Full PDB)

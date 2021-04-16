@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="源文件\win">
+      <UniqueIdentifier>{ff044975-5941-4bbf-9291-23da6bed5cf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="源文件\my">
+      <UniqueIdentifier>{2ca8bbe2-e541-42ae-ba1d-5b522aa86bf2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="kdtree.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="rplidar_driver.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="thread.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="net_serial.cpp">
+      <Filter>源文件\win</Filter>
+    </ClCompile>
+    <ClCompile Include="net_socket.cpp">
+      <Filter>源文件\win</Filter>
+    </ClCompile>
+    <ClCompile Include="timer.cpp">
+      <Filter>源文件\win</Filter>
+    </ClCompile>
+    <ClCompile Include="Display.cpp">
+      <Filter>源文件\my</Filter>
+    </ClCompile>
+    <ClCompile Include="ICP.cpp">
+      <Filter>源文件\my</Filter>
+    </ClCompile>
+    <ClCompile Include="MCL.cpp">
+      <Filter>源文件\my</Filter>
+    </ClCompile>
+    <ClCompile Include="NEW_Lidar_pro.cpp">
+      <Filter>源文件\my</Filter>
+    </ClCompile>
+    <ClCompile Include="DWA.cpp">
+      <Filter>源文件\my</Filter>
+    </ClCompile>
+    <ClCompile Include="UDP.cpp">
+      <Filter>源文件\my</Filter>
+    </ClCompile>
+    <ClCompile Include="DFS_Path.cpp">
+      <Filter>源文件\my</Filter>
+    </ClCompile>
+    <ClCompile Include="Motor_Driver.cpp">
+      <Filter>源文件\my</Filter>
+    </ClCompile>
+    <ClCompile Include="Data_smooth.cpp">
+      <Filter>源文件\win</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="abs_rxtx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="assert.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="byteops.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="event.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="kdtree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="locker.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="rplidar.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="rplidar_cmd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="rplidar_driver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="rplidar_driver_impl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="rplidar_driver_serial.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="rplidar_driver_TCP.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="rplidar_protocol.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="rptypes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sdkcommon.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="socket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="thread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="types.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="arch_win32.h">
+      <Filter>源文件\win</Filter>
+    </ClInclude>
+    <ClInclude Include="net_serial.h">
+      <Filter>源文件\win</Filter>
+    </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>源文件\win</Filter>
+    </ClInclude>
+    <ClInclude Include="winthread.hpp">
+      <Filter>源文件\win</Filter>
+    </ClInclude>
+    <ClInclude Include="Display.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ICP.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MCL.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DWA.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UDP.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DFS_Path.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Data_smooth.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Motor_Driver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
