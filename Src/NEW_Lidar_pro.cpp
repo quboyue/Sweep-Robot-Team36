@@ -16,6 +16,7 @@
 #include "MCL.h"
 #include "DWA.h"
 #include "UDP.h"
+#include "DFS_Path.h"
 #define PI acos(-1)
 
 #ifndef _countof
@@ -214,26 +215,51 @@ int main()
 	vector<vector<float>> T(2, vector<float>(1));
 	vector<vector<float>> A(2, vector<float>(3));
 	vector<vector<float>> B(2, vector<float>(3));
-	vector<vector<float>> target(2, vector<float>(1));
+
 	float positionX=500;
 	float positionY=500;
-	target[0][0] = 600;
-	target[1][0] = 600;
+	float targetAngle = 0;
+	vector<vector<int>> list_target;
+
 	vector<float> thetas;
 	vector<float>  dists;
 	clock_t start, finish;
 	double  duration;
 	int i = 0;
+	bool MCL_ready = FALSE;
+	cv::Mat pic(1000, 1000, CV_8UC1, cv::Scalar(round(255 * 0.5)));
 
-	cv::Mat pic(1000, 1000, CV_8UC3, cv::Scalar(round(255 * 0.5), 0, 0));
+
+
 	thread th0(UDP,ref(RealAngle));
 	th0.detach();
-	//thread th1(DDA_line, ref(Startx), ref(Starty), ref(RealAngle), ref(thetas), ref(dists),ref(pic));
-	//th1.detach();
-	thread th2(MCL_Main, ref(Startx), ref(Starty), ref(nowset),ref(positionX),ref(positionY));
-	th2.detach();
-	//thread th3(DWA_MAIN_loop,ref(thetas),ref(dists),ref(positionX),ref(positionY),ref(target));
-	//th3.detach();
+	int mode = 1;
+	if (mode==1) //mode1 导航模式
+	{
+		pic = cv::imread("test2.png");
+		vector<cv::Mat> channels;
+		split(pic, channels);
+		pic = channels.at(0);
+
+		//thread th1(DDA_line, ref(positionX), ref(positionY), ref(thetas), ref(dists), ref(pic), ref(MCL_ready));
+		//th1.detach();
+	}
+	else//建图模式
+	{
+
+		thread th1(DDA_line, ref(Startx), ref(Starty), ref(thetas), ref(dists), ref(pic), ref(MCL_ready));
+		th1.detach();//导航模式positionX //建图模式Startx
+	}
+
+	//thread th2(MCL_Main, ref(nowset),ref(positionX),ref(positionY),ref(MCL_ready));
+	//th2.detach();
+	vector<vector<int>> target(2, vector<int>(1));
+	target[0][0] = 600;
+	target[1][0] = 600;
+	thread th3(DWA_MAIN_loop,ref(thetas),ref(dists),ref(positionX),ref(positionY),ref(target),ref(RealAngle),ref(targetAngle));
+	th3.detach();
+	thread th4(DFS_loop,ref(positionX), ref(positionY), ref(pic), ref(list_target));
+	th4.detach();
 
 	while (1)
 	{
@@ -259,8 +285,8 @@ int main()
 
 				if (dist != 0 && dist<3500)
 				{
-					//OutFile << i << " " << theta << " " << dist << " " << quality << "\n";
-					theta = theta - RealAngle;
+					theta = theta + RealAngle;
+					while (theta > 360) theta-= 360;
 					thetas.push_back(theta);
 					dists.push_back(dist / 10);
 					nowset[0].push_back(sin(theta*PI / 180.0)*dist / 10);
@@ -283,19 +309,23 @@ int main()
 
 		if (lastset[0].size())
 		{
+			if (mode == 2) 
+			{
+				cout << "ICP" << endl;
+				Result = ICP_D(lastset, nowset);
+				R = Result[0];
+				T = Result[1];
+				cout << R[0][0] << "  " << R[0][1] << endl;
+				cout << R[1][0] << "  " << R[1][1] << endl;
+				cout << T[0][0] << "  " << T[1][0] << endl;
+				Startx += T[0][0] * 2;
+				Starty += T[1][0] * 2;
+				cout << "POSITION   " << Startx << "  " << Starty << endl;
+			}
+			if (mode == 1)
+				cv::waitKey(150);
+				//给其他线程一些时间来读取
 
-			Result = ICP_D(lastset, nowset);
-
-			R = Result[0];
-			T = Result[1];
-			//cout << R[0][0] << "  " << R[0][1] << endl;
-			//cout << R[1][0] << "  " << R[1][1] << endl;
-			cout << T[0][0] << "  " << T[1][0] << endl;
-			Startx += T[0][0]*2;
-			Starty += T[1][0]*2;
-			DDA_line(Startx, Starty, RealAngle, thetas, dists, pic);
-
-			cout<<"POSITION   " << Startx << "  " << Starty << endl;
 
 		}
 
@@ -319,7 +349,7 @@ int main()
 		float duration = 0;
 		finish = clock();
 		duration = (double)(finish - start) / CLOCKS_PER_SEC;
-		cout << "\n>>>>>>>>>>>>>>>>>>> ----seconds " << duration << endl;
+		//cout << "\n>>>>>>>>>>>>>>>>>>> ----seconds " << duration << endl;
 	}
 
 
