@@ -60,6 +60,14 @@ The project is based on the **Raspberry Pi 3**, using **3D printing model** and 
 <img width="550" height="400" src="https://github.com/GANTIAN-hub405/picutre/blob/main/3D.png"/></div>
 
 
+
+
+
+<div align=center><img width="700" height="500" src="https://github.com/Nuko-XCB/material/blob/main/Hardware%20connection.png"/></div>
+
+
+
+
 ### Test_map:
 
 
