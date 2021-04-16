@@ -85,7 +85,17 @@ This algorithm is used to detect the region that the robot can reach when the ro
    This is an algorithm that plans out specific action strategies for the robot in a part of map after obtaining the information of destination. The principle is to sample      several groups of velocities and simulate the motion trajectory of the robot in a certain time at these velocities. Then an evaluation function is used to score these        trajectories to exclude collision trajectories and select the speed corresponding to the optimal trajectory to drive the robot.
 
 ***
-## Contributing
+## Contributing  
+We are at the early stages of the project but if you wish to contribute, wish would be great !!! Please follow the following steps:
+
+1. Fork the project repository
+2. Clone or download the project repository
+3. Create a new branch
+4. Make suitable changes and commit them
+5. Push the changes
+6. Submit a pull request
+If you are unsure about how to contribute, spot any problems or have suggestions on how we can improve, feel free to get in touch with us, our contact details can be found in the contact section.  
+
 ## License
 ## Social Media and Outreach
  Follow our social channels to keep up to date with our branding and public outreach.
