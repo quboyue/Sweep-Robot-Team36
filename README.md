@@ -51,10 +51,13 @@ The project is based on the **Raspberry Pi 3**, using **3D printing model** and 
 
 
 ### Hardware 
-- **Raspberry Pi 3 Model B**
+- [Raspberry Pi 3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/)
 - **Sensor**  
-     Radar (slamtec a1m8-r5)
+     [Radar](https://www.slamtec.com/en/) (slamtec a1m8-r5)
 - [3D drift](https://github.com/quboyue/Sweep-Robot-Team36/blob/main/Car_model.stl)  
+- [electronic compass]()（QMC5883）
+- [42 Stepper motor]()（424812）
+- []()
 
 
 <img width="550" height="400" src="https://github.com/GANTIAN-hub405/picutre/blob/main/3D.png"/></div>
@@ -78,15 +81,16 @@ See the [open issues](https://img.shields.io/github/issues/quboyue/Sweep-Robot-T
  - **ICP**
  - **MCL**  
   This is an algorithm that calculates the position of a robot in a known map. The principle of this algorithm is to simulate a group of particles that have the same movement   as the robot. Each particle is given a certain probability by comparing the sensor data of robot with the simulated sensor data of the particles. After several iterations,   the particles will converge to a position, which is the exact position of the robot in the map.
- - **Floodfill**  
-This algorithm is used to detect the region that the robot can reach when the robot is running. The principle is to look for all nodes that are connected to the start node and then form a connected area where the robot can travel.
+ - **Floodfill**
  - **DFS**
  - **DWA**   
    This is an algorithm that plans out specific action strategies for the robot in a part of map after obtaining the information of destination. The principle is to sample      several groups of velocities and simulate the motion trajectory of the robot in a certain time at these velocities. Then an evaluation function is used to score these        trajectories to exclude collision trajectories and select the speed corresponding to the optimal trajectory to drive the robot.
 
 ***
 ## Contributing
-## License
+## License  
+Project is distributed under MIT License  
+
 ## Social Media and Outreach
  Follow our social channels to keep up to date with our branding and public outreach.
  - [Youtube](https://www.youtube.com/channel/UCdpiw0mUYiLdALUTy5392jA)
@@ -94,6 +98,6 @@ This algorithm is used to detect the region that the robot can reach when the ro
 
 ## Contact
 This project is being completed by a team of students at the University of Glasgow:  
- - Qu Boyue- [@Quboyue](quboyue@gmail.com)
- - Gan Tian - [@Gantian](https://twitter.com/GanTian10640151)
- - Bai Xiaochen - [@Baixiaochen](nukobaixiaochen@gmail.com)
+ - Qu Boyue- [@Quboyue](https://github.com/quboyue) - <2560655Q@student.gla.ac.uk>
+ - Gan Tian - [@Gantian](https://github.com/GANTIAN-hub405) - <2533183G@student.gla.ac.uk>
+ - Bai Xiaochen - [@Baixiaochen](https://github.com/Nuko-XCB) - <2517191B@student.gla.ac.uk>
