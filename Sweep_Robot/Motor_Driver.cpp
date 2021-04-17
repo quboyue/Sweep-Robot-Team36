@@ -60,7 +60,7 @@ int Motor_Driver(float &positionX, float &positionY, float &RealAngle,float &tar
 			float angleDist = RealAngle - targetAngle;
 			if (angleDist > 180) angleDist =  angleDist-360;
 			if (angleDist < -180) angleDist = 360 + angleDist;
-			cout<<"  Motor_Driver--  heading "<<RealAngle<<" Target "<<targetAngle<<" DIST  "<<angleDist<<endl;
+//			cout<<"  Motor_Driver--  heading "<<RealAngle<<" Target "<<targetAngle<<" DIST  "<<angleDist<<endl;
 
 			if (angleDist > 4 || angleDist < -4)
 			{
