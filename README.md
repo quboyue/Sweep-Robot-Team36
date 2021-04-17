@@ -67,7 +67,7 @@ This is an algorithm for planning the path of a robot. Depth first search path p
  - **DWA**   
    This is an algorithm that plans out specific action strategies for the robot in a part of map after obtaining the information of destination. The principle is to sample      several groups of velocities and simulate the motion trajectory of the robot in a certain time at these velocities. Then an evaluation function is used to score these        trajectories to exclude collision trajectories and select the speed corresponding to the optimal trajectory to drive the robot.
    
-<img width="400" height="250" src="https://github.com/Nuko-XCB/material/blob/main/DWA.png"/></div>  
+<img width="350" height="200" src="https://github.com/Nuko-XCB/material/blob/main/DWA.png"/></div>  
 
 ***
 
