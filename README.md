@@ -2,7 +2,7 @@
 
 
 
-<div align=center><img width="550" height="400" src="https://github.com/GANTIAN-hub405/picutre/blob/main/sweep-robot.jpg"/></div>
+<div align=center><img width="850" height="600" src="https://github.com/GANTIAN-hub405/picutre/blob/main/sweep-robot.jpg"/></div>
 
 <h2 align="center">Glasgow Team36</h2>  
 <div align="center">
@@ -88,19 +88,23 @@ This is an algorithm for planning the path of a robot. Depth first search path p
 
 
 
--Schematic diagram of hardware connection
+-**Schematic diagram of hardware connection**
 
 <img width="700" height="500" src="https://github.com/Nuko-XCB/material/blob/main/Hardware%20connection-final2.png"/></div>
 
 
 
 
+*** 
 ### Test_map:
 
 
-<img width="550" height="400" src="https://github.com/GANTIAN-hub405/picutre/blob/main/map1.jpg"/></div>  
+<img width="850" height="600" src="https://github.com/GANTIAN-hub405/picutre/blob/main/map1.jpg"/></div>  
 
-<img width="550" height="400" src="https://github.com/GANTIAN-hub405/picutre/blob/main/roadmap.png"/></div>
+<img width="850" height="600" src="https://github.com/GANTIAN-hub405/picutre/blob/main/roadmap.png"/></div>  
+
+
+***
 ### Roadmap  
 
 - Completed the ICP algorithm and built the room map.
@@ -120,10 +124,59 @@ Future plans:
 
 
 ***
-## Getting Started
+## Getting Started  
 
+  **Prerequists:**  
+  1. install opencv-4.5.1  
+     ```  
+     //Install the necessary build tools and common toolkits  
+     
+      sudo apt-get install build-essential cmake git pkg-config  
+      sudo apt-get install libjpeg8-dev  
+      sudo apt-get install libtiff5-dev  
+      sudo apt-get install libjasper-dev  
+      sudo apt-get install libpng12-dev  
+      sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev  
+      sudo apt-get install libgtk2.0-dev  
+      sudo apt-get install libatlas-base-dev gfortran  
+      
+      //Download the opencv  
+      
+      wget -O opencv-4.5.1.zip https://github.com/Itseez/opencv/archive/4.5.1.zip  
+      unzip opencv-4.5.1.zip  
+      wget -O opencv_contrib-4.5.1.zip https://github.com/Itseez/opencv_contrib/archive/4.5.1.zip  
+      unzip opencv_contrib-4.5.1.zip  
+      
+      //  Will download the source decompression, and enter the source directory in the terminal
+      cd ~/opencv-4.5.1  
+     ```  
+     
+  2. install wiringPi  
+   ```  
+     git clone https://github.com/WiringPi/WiringPi.git
+     cd ./WiringPi
+     ./build
+   ```
+  
+  **(optional): Python**  
+```  
+     sudo apt-get install python3-rpi.gpio  
+```  
 
+  **Installation**  
+```  
+    git clone https://github.com/quboyue/Sweep-Robot-Team36.git
+		cd Sweep-Robot-Team36/Sweep_Robot/build
+		sudo camke ..
+		make  
+```  
 
+  **Usage**  
+```  
+   ./main  
+```
+
+***
 
 ## Contributing  
 
