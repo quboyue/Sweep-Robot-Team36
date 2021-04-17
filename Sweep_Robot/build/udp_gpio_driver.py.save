@@ -1,0 +1,53 @@
+#coding:utf-8
+import socket
+import RPi.GPIO as GPIO
+import _thread
+import time
+GPIO.setmode(GPIO.BOARD)
+
+GPIO.setup(16, GPIO.OUT)
+GPIO.setup(18,GPIO.OUT)
+#GPIO.output(18,GPIO.HIGH) #10 front 01back 11 right
+
+GPIO.setup(13, GPIO.OUT)
+GPIO.setup(7,GPIO.OUT)
+#GPIO.output(7,GPIO.LOW)
+udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  
+udp.bind(('192.168.0.108', 7403))
+receive=""
+run=0
+def gpio_driver():
+   global run
+   while(run==1):
+    GPIO.output(16, GPIO.HIGH)
+    GPIO.output(13, GPIO.HIGH)
+    time.sleep(0.001)
+    GPIO.output(16, GPIO.LOW)
+    GPIO.output(13, GPIO.LOW)
+    time.sleep(0.001)
+    print("")
+
+
+_thread.start_new_thread( gpio_driver, () )
+
+
+while(1):
+    data, addr = udp.recvfrom(1024)  # 返回数据以及发送数据的地
+    receive=data.decode('utf-8')
+    print(receive)
+    if(receive=="front"):
+      run=1
+      GPIO.output(18, GPIO.HIGH)
+      GPIO.output(7, GPIO.LOW)
+    if(receive=="left"):
+      run=1
+      GPIO.output(18, GPIO.LOW)
+      GPIO.output(7, GPIO.LOW)
+    if(receive=="right"):
+      run=1
+      GPIO.output(18, GPIO.HIGH)
+      GPIO.output(7, GPIO.HIGH)
+    if(receive=="stop"):
+      run=0
+udp.close()
+

@@ -1,21 +1,23 @@
-#include <winsock2.h>
-#include <WS2tcpip.h>
+//#include <winsock2.h>
+//#include <WS2tcpip.h>
+#include "UDP.h"
 #include <iostream>
 #include <string>
+#include "Display.h"
 using namespace  std;
 
-//添加动态库的lib
-#pragma comment(lib, "ws2_32.lib")
-//UDP客户端
-int  UDP(float &RealAngle) {
 
+//#pragma comment(lib, "ws2_32.lib")
+
+int  UDP(float &RealAngle) {
+	/*
 	//初始化winsock2环境
 	WSADATA  wd;
 	if (WSAStartup(MAKEWORD(2, 2), &wd) != 0) {
 		cout << "WSAStartup error:" << GetLastError() << endl;
 		return 0;
 	}
-
+	*/
 	int srv_sd, cli_sd, ret;
 
 
@@ -47,6 +49,7 @@ int  UDP(float &RealAngle) {
 			string bufstring;
 			bufstring = buf;
 			float AngleInput = stof(bufstring);
+			MTX.lock();
 			if (inital < 10)
 			{
 				inital += 1;
@@ -56,14 +59,16 @@ int  UDP(float &RealAngle) {
 			{
 
 				RealAngle = AngleInput - (AngleInital / inital);
-				
+
 				//cout << RealAngle << endl;
 			}
-			RealAngle = -RealAngle;
+		
 			if (RealAngle < 0) RealAngle += 360;
+			MTX.unlock();
+			//cv::waitKey(50);
 
 		}
-		//cout << RealAngle << endl;
+		//cout <<"  UDP-- RealAngle "<< RealAngle << endl;
 	}
 	return 0;
 

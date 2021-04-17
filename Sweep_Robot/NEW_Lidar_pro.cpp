@@ -8,6 +8,7 @@
 #include  "time.h"
 #include "rplidar.h" //RPLIDAR standard sdk, all-in-one header
 #include <opencv2/opencv.hpp>
+#include <opencv2/highgui/highgui_c.h>
 #include <thread>
 
 #include "kdtree.h"
@@ -17,6 +18,7 @@
 #include "DWA.h"
 #include "UDP.h"
 #include "DFS_Path.h"
+#include "Motor_Driver.h"
 #define PI acos(-1)
 
 #ifndef _countof
@@ -226,63 +228,68 @@ int main()
 	clock_t start, finish;
 	double  duration;
 	int i = 0;
-	bool MCL_ready = FALSE;
+	bool MCL_ready = 0;
 	cv::Mat pic(1000, 1000, CV_8UC1, cv::Scalar(round(255 * 0.5)));
-
-
 
 	thread th0(UDP,ref(RealAngle));
 	th0.detach();
+
+	thread th2(MCL_Main, ref(nowset),ref(positionX),ref(positionY),ref(MCL_ready));
+	th2.detach();
+
 	int mode = 1;
-	if (mode==1) //mode1 导航模式
-	{
-		pic = cv::imread("test2.png");
-		vector<cv::Mat> channels;
-		split(pic, channels);
-		pic = channels.at(0);
-
-		//thread th1(DDA_line, ref(positionX), ref(positionY), ref(thetas), ref(dists), ref(pic), ref(MCL_ready));
-		//th1.detach();
-	}
-	else//建图模式
-	{
-
-		thread th1(DDA_line, ref(Startx), ref(Starty), ref(thetas), ref(dists), ref(pic), ref(MCL_ready));
-		th1.detach();//导航模式positionX //建图模式Startx
-	}
-
-	//thread th2(MCL_Main, ref(nowset),ref(positionX),ref(positionY),ref(MCL_ready));
-	//th2.detach();
-	vector<vector<int>> target(2, vector<int>(1));
-	target[0][0] = 600;
-	target[1][0] = 600;
-	thread th3(DWA_MAIN_loop,ref(thetas),ref(dists),ref(positionX),ref(positionY),ref(target),ref(RealAngle),ref(targetAngle));
-	th3.detach();
-	thread th4(DFS_loop,ref(positionX), ref(positionY), ref(pic), ref(list_target));
-	th4.detach();
-
+	bool thread_start = 1;
 	while (1)
 	{
+		
 
+		if (MCL_ready && thread_start) 
+		{
+
+			if (mode == 1) //mode1 导航模式
+			{
+				pic = cv::imread("test2.png");
+				vector<cv::Mat> channels;
+				split(pic, channels);
+				pic = channels.at(0);
+
+				thread th1(DDA_line, ref(positionX), ref(positionY), ref(thetas), ref(dists), ref(pic), ref(MCL_ready));
+				th1.detach();
+			}
+			else//建图模式
+			{
+
+				thread th1(DDA_line, ref(Startx), ref(Starty), ref(thetas), ref(dists), ref(pic), ref(MCL_ready));
+				th1.detach();//导航模式positionX //建图模式Startx
+			}
+
+			//vector<vector<int>> target(2, vector<int>(1));
+			//target[0][0] = 600;
+			//target[1][0] = 600;
+
+			thread th3(DFS_loop, ref(positionX), ref(positionY), ref(pic), ref(list_target));
+			th3.detach();
+			thread th4(DWA_MAIN_loop, ref(nowset), ref(positionX), ref(positionY), ref(list_target), ref(RealAngle), ref(targetAngle));
+			th4.detach();
+                        thread th5(Motor_Driver, ref(positionX),ref(positionY),ref(RealAngle),ref(targetAngle),ref(list_target));
+			th5.detach();
+			thread_start = 0;
+
+		}
 		clock_t start, finish;
 		start = clock();
 		rplidar_response_measurement_node_t nodes[8192];
 		size_t   count = _countof(nodes);
 		op_result = drv->grabScanData(nodes, count);
-		//op_result=drv->grabScanDataHq(nodes, count);
 		MTX.lock();
 		if (IS_OK(op_result))
 		{
 			drv->ascendScanData(nodes, count);
 			for (int pos = 0; pos < (int)count; ++pos)
 			{
-				//printf("%d\n", i);
-				//float theta = (float(nodes[pos].angle_z_q14 >> RPLIDAR_RESP_MEASUREMENT_ANGLE_SHIFT) / 64.0f);
-				//float dist = float(nodes[pos].dist_mm_q2/ 4.0f);
+	
 				float theta = (float(nodes[pos].angle_q6_checkbit >> RPLIDAR_RESP_MEASUREMENT_ANGLE_SHIFT) / 64.0f);
 				float dist = float(nodes[pos].distance_q2 / 4.0f);
-				//int   quality = int(nodes[pos].sync_quality >> RPLIDAR_RESP_MEASUREMENT_QUALITY_SHIFT);
-
 				if (dist != 0 && dist<3500)
 				{
 					theta = theta + RealAngle;
@@ -339,8 +346,6 @@ int main()
 		//printf("size lastset%d\n---------\n", lastset[0].size());
 		nowset[0].clear();
 		nowset[1].clear();
-
-
 
 		dists.clear();
 		thetas.clear();

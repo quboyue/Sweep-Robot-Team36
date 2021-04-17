@@ -1,6 +1,7 @@
-
+#include "Data_smooth.h"
 #include "MCL.h"
 #include "Display.h"
+#include <opencv2/highgui/highgui_c.h>
 using namespace cv;
 using namespace std;
 #define PI acos(-1)
@@ -92,7 +93,8 @@ vector<float> max(vector<float> Weight, int n)
 int MCL_Main(vector<vector<float>> &nowset, float &positionX, float &positionY,bool &MCL_ready)
 {
 
-
+	vector<float> positionX_filter;
+	vector<float> positionY_filter;
 	vector<float> max_point;
 	vector<vector<float>> frame(2);
 	vector<vector<float>> Map(1000, vector<float>(1000));
@@ -111,7 +113,7 @@ int MCL_Main(vector<vector<float>> &nowset, float &positionX, float &positionY,b
 	split(B_channel, channels);
 
 	B_channel = channels.at(0);
-	cv::blur(B_channel, B_channel, cv::Size(3, 3), cv::Point(-1, -1));
+	cv::blur(B_channel, B_channel, cv::Size(2, 2), cv::Point(-1, -1));
 
 	for (int i = 0; i < 1000; i++)
 	{
@@ -126,18 +128,17 @@ int MCL_Main(vector<vector<float>> &nowset, float &positionX, float &positionY,b
 
 
 
-	cv::namedWindow("Location", CV_WINDOW_NORMAL);
-	cv::resizeWindow("Location", 450, 450);
-	cv::moveWindow("Location", 0, 0);
+	//cv::namedWindow("Location", CV_WINDOW_NORMAL);
+	//cv::resizeWindow("Location", 450, 450);
+	//cv::moveWindow("Location", 0, 0);
 	//std::cout << "all_done" << endl;
 
 
 
-	
+
 
 	while (1)
 	{
-	
 
 		while (1)
 		{
@@ -148,15 +149,15 @@ int MCL_Main(vector<vector<float>> &nowset, float &positionX, float &positionY,b
 				break;
 		}
 
-		Mat G_channel(1000, 1000, CV_8UC1, cv::Scalar(0));
-		Mat R_channel(1000, 1000, CV_8UC1, cv::Scalar(0));
+//		Mat G_channel(1000, 1000, CV_8UC1, cv::Scalar(0));
+//		Mat R_channel(1000, 1000, CV_8UC1, cv::Scalar(0));
 
 
 		for (int i = 0; i < n; i++)
 		{
 			//p[i].move(move_x,move_y,1000);
 			p[i].measure(frame, Map);
-			R_channel.at<uchar>(p[i].x, p[i].y) = 255;
+//			R_channel.at<uchar>(p[i].x, p[i].y) = 255;
 			Weight.push_back(p[i].match_rate);
 		}
 
@@ -165,9 +166,11 @@ int MCL_Main(vector<vector<float>> &nowset, float &positionX, float &positionY,b
 
 		MTX.lock();
 		positionX = p[int(max_point[1])].x;
+		positionX =float_smooth(positionX_filter, positionX, 6);
 		positionY = p[int(max_point[1])].y;
+		positionY=float_smooth(positionY_filter, positionY, 6);
 		MTX.unlock();
-
+/*
 		for (int i = 0; i < frame[0].size(); i++)
 		{
 			if ((frame[0][i] + positionX) < 1000 && (frame[0][i]+ positionX)>0 && (frame[1][i]  + positionY) < 1000 && (frame[1][i] + positionY)>0)
@@ -178,7 +181,6 @@ int MCL_Main(vector<vector<float>> &nowset, float &positionX, float &positionY,b
 		}
 
 
-
 	   circle(R_channel, Point(positionY, positionX), 3,255, -1);
 	   cv::putText(G_channel, "Position "+to_string(positionX)+"  "+to_string(positionY), cv::Point(0, 50), cv::FONT_HERSHEY_TRIPLEX, 2, cv::Scalar(255), 0.001, CV_AA);
 	   vector<Mat> MergeList= { B_channel,G_channel,R_channel };
@@ -187,7 +189,7 @@ int MCL_Main(vector<vector<float>> &nowset, float &positionX, float &positionY,b
 		cv::merge(MergeList, MergePic);
 		cv::imshow("Location", MergePic);
 		cv::waitKey(1);
-
+*/
 		float startx, starty, limitx, limity;
 		for (int i = 0; i < n; i++)
 		{
@@ -216,9 +218,12 @@ int MCL_Main(vector<vector<float>> &nowset, float &positionX, float &positionY,b
 				if (limity > 1000) limity = 1000;
 				p[i].general_location(startx, starty, limitx, limity);
 
+
 			}
 		}
-
+		cv::waitKey(100);
+                if(MCL_ready==0)
+		  cout << "   MCL-- position " << positionX << "   " << positionY << endl;
 	}
 
 	
