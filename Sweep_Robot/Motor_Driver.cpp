@@ -7,7 +7,7 @@
 #include <string>
 #include <fstream>
 using namespace std;
-int Motor_Driver(float &positionX, float &positionY, float &RealAngle,float &targetAngle,vector<vector<int>> &list_target)
+int Motor_Driver(float &positionX, float &positionY, float &RealAngle,float &targetAngle,vector<vector<int>> &list_target,string &command)
 {
 	cv::waitKey(3000);
 	ofstream out_dfs("DFS.txt");
