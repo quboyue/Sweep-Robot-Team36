@@ -49,11 +49,15 @@ The project is based on the **Raspberry Pi 3**, using **3D printing model** and 
 - [Opencv 4.5.1](https://opencv.org/opencv-4-5-1/)
 - Python GPIO  
 #### Algorithm 
- - **ICP**
- - **MCL**  
+ - **ICP**   
+This is an algorithm used to build a map when the robot first arrives in an unknown environment.The principle is to analyze the point set scanned by the radar before and after each displacement, and then find the average displacement value of each point, which is regarded as the displacement of the robot. Through these data, the exact position of the robot relative to the origin can be calculated. The position of obstacles relative to the origin is calculated by combining the sensor data and the robot position, and as a consequence, the map is built.
+
+ - **MCL**    
   This is an algorithm that calculates the position of a robot in a known map. The principle of this algorithm is to simulate a group of particles that have the same movement   as the robot. Each particle is given a certain probability by comparing the sensor data of robot with the simulated sensor data of the particles. After several iterations,   the particles will converge to a position, which is the exact position of the robot in the map.
- - **Floodfill**
- - **DFS**
+ - **Floodfill**    
+ This algorithm is used to detect the region that the robot can reach when the robot is running. The principle is to look for all nodes that are connected to the start node and then form a connected area where the robot can travel.
+ - **DFS**    
+This is an algorithm for planning the path of a robot. Depth first search path planning starts from the starting point, chooses one direction and keeps going in this direction until it encounters obstacles, and then tries another direction until it finally comes to the endpoint. The advantage of depth first search is that they can explore every branch as much as possible. This algorithm is more efficient because it does not repeat the route which is already reached before. Compared with the breadth-first algorithms, which traverse every layer of data, this method is more efficient.
  - **DWA**   
    This is an algorithm that plans out specific action strategies for the robot in a part of map after obtaining the information of destination. The principle is to sample      several groups of velocities and simulate the motion trajectory of the robot in a certain time at these velocities. Then an evaluation function is used to score these        trajectories to exclude collision trajectories and select the speed corresponding to the optimal trajectory to drive the robot.
 
@@ -78,7 +82,7 @@ The project is based on the **Raspberry Pi 3**, using **3D printing model** and 
 
 -Schematic diagram of hardware connection
 
-<img width="700" height="500" src="https://github.com/Nuko-XCB/material/blob/main/Hardware%20connection.png"/></div>
+<img width="700" height="500" src="https://github.com/Nuko-XCB/material/blob/main/Hardware%20connection-final2.png"/></div>
 
 
 
