@@ -42,7 +42,12 @@
 
 ## About the project
 
-The project is based on the **Raspberry Pi 3**, using **3D printing model** and **LIDAR** scanning to realize the obstacle avoidance movement of the robot, and to remember the movement trajectory.
+This project is an intelligent sweep robot developed based on **Raspberry Pi 3**. Its frame is built using **3D printing** and it can automatically avoid obstacles, clean the floor, and therefore reduce the user's housework.
+
+Users only need to place the robot in their room, where it automatically scans the surrounding environment of the room by the **LIDAR** and builds a grid map. After the map is built, the robot will make global path planning to determine the rough sweep route and start work. If the robot detects an obstacle that does not match the pre-stored map during the work, it will use the local path planning algorithm to choose the optimal route and avoid impacting the obstacle, so that your floor will be thoroughly cleaned.
+
+Hands-free, let the robot clean your floor!
+
 
 
 ### Software
@@ -54,6 +59,9 @@ The project is based on the **Raspberry Pi 3**, using **3D printing model** and 
 This is an algorithm used to build a map when the robot first arrives in an unknown environment.The principle is to analyze the point set scanned by the radar before and after each displacement, and then find the average displacement value of each point, which is regarded as the displacement of the robot. Through these data, the exact position of the robot relative to the origin can be calculated. The position of obstacles relative to the origin is calculated by combining the sensor data and the robot position, and as a consequence, the map is built.
  - **Map building**    
 When the robot uses ICP algorithm to build the map, each scan will get the data of the surrounding environment, which can be divided into two types: blank space and obstacles. The principle of the map building is to darken the color of the obstacle position and lighten the color of the blank position in each scan (blue in this project). A complete map can be created by superimposing all the results of scans.   
+
+<div align=center><img width="500" height="375" src="https://github.com/Nuko-XCB/material/blob/main/Grid%20map.png"/></div>  
+
  - **MCL**    
   This is an algorithm that calculates the position of a robot in a known map. The principle of this algorithm is to simulate a group of particles that have the same movement   as the robot. Each particle is given a certain probability by comparing the sensor data of robot with the simulated sensor data of the particles. After several iterations,   the particles will converge to a position, which is the exact position of the robot in the map.
   
