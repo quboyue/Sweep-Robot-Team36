@@ -84,7 +84,7 @@ This is an algorithm for planning the path of a robot. Depth first search path p
 - Electric Level Transform Chip
 - [3D drift](https://github.com/quboyue/Sweep-Robot-Team36/blob/main/Car_model.stl)  
 
-<img width="550" height="400" src="https://github.com/GANTIAN-hub405/picutre/blob/main/3D.png"/></div>
+<img width="850" height="600" src="https://github.com/GANTIAN-hub405/picutre/blob/main/3D.png"/></div>
 
 
 
@@ -149,6 +149,15 @@ Future plans:
       
       //  Will download the source decompression, and enter the source directory in the terminal
       cd ~/opencv-4.5.1  
+      
+      mkdir release  
+      cd release  
+      sudo cmake -D CMAKE_BUILD_TYPE=RELEASE \
+      -D CMAKE_INSTALL_PREFIX=/usr/local \
+      -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib-3.4.1/modules \
+      -D INSTALL_PYTHON_EXAMPLES=ON \
+      -D BUILD_EXAMPLES=ON ..
+
      ```  
      
   2. install wiringPi  
@@ -196,8 +205,9 @@ Project is distributed under [MIT License](https://github.com/quboyue/Sweep-Robo
 
 ## Social-Media
  Follow our social channels to keep up to date with our branding.
- - [Youtube](https://www.youtube.com/channel/UCdpiw0mUYiLdALUTy5392jA)
- - [Twitter](https://twitter.com/home)
+ - [Youtube](https://www.youtube.com/watch?v=rYhGWg9WMtA)  
+ - [Bilibili](https://www.bilibili.com/video/BV1k64y1m7D2/)
+
 
 ## Contact
 This project is being completed by a team of students at the University of Glasgow:  
