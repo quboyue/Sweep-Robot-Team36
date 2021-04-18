@@ -11,7 +11,7 @@
 [![Forks](https://img.shields.io/github/forks/quboyue/Sweep-Robot-Team36.svg?style=for-the-badge)](https://github.com/quboyue/Sweep-Robot-Team36/network/members)
 [![Stars](https://img.shields.io/github/stars/quboyue/Sweep-Robot-Team36.svg?style=for-the-badge)](https://github.com/quboyue/Sweep-Robot-Team36/stargazers)
 [![Issues](https://img.shields.io/github/issues/quboyue/Sweep-Robot-Team36.svg?style=for-the-badge)](https://github.com/quboyue/Sweep-Robot-Team36/issues)
-[![LICENSE](https://img.shields.io/github/LICENSE/blob/quboyue/Sweep-Robot-Team36.svg?style=for-the-badge)](https://github.com/quboyue/Sweep-Robot-Team36/blob/main/LICENSE)
+[![LICENSE](https://img.shields.io/github/license/quboyue/Sweep-Robot-Team36.svg?style=for-the-badge)](https://github.com/quboyue/Sweep-Robot-Team36/blob/main/LICENSE)
 </div>
 
 <!-- TABLE OF CONTENTS -->
@@ -98,10 +98,25 @@ This is an algorithm for planning the path of a robot. Depth first search path p
 ### Test_map:
 
 
-<img width="550" height="400" src="https://github.com/GANTIAN-hub405/picutre/blob/main/map.png"/></div>
+<img width="550" height="400" src="https://github.com/GANTIAN-hub405/picutre/blob/main/map1.jpg"/></div>  
 
-### Roadmap
-See the [open issues](https://img.shields.io/github/issues/quboyue/Sweep-Robot-Team36.svg?style=for-the-badge) for a list of proposed features (and known issues).
+<img width="550" height="400" src="https://github.com/GANTIAN-hub405/picutre/blob/main/roadmap.png"/></div>
+### Roadmap  
+
+- Completed the ICP algorithm and built the room map.
+- Completed MCL algorithm to realize robot positioning.
+- Complete the global path planning algorithm and help the robot to determine the route.
+- Completed the DWA algorithm and helped the robot avoid obstacles.
+- KdTree is used to store point cloud and accelerate ICP algorithm.
+- Use floodfill algorithm to optimize feasible positions in global path planning.  
+
+Future plans:  
+- Use a wheel odometer to assist positioning.
+- Optimize MCL algorithm.
+- Optimize MCL into AMCL algorithm.
+
+
+
 
 
 ***
