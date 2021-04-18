@@ -42,9 +42,9 @@
 
 ## About the project
 
-	This project is an intelligent sweep robot developed based on **Raspberry Pi 3**. Its frame is built using **3D printing** and it can automatically avoid obstacles, clean the floor, and therefore reduce the user's housework.
+  This project is an intelligent sweep robot developed based on **Raspberry Pi 3**. Its frame is built using **3D printing** and it can automatically avoid obstacles, clean the floor, and therefore reduce the user's housework.
 
-	Users only need to place the robot in their room, where it automatically scans the surrounding environment of the room by the **LIDAR** and builds a grid map. After the map is built, the robot will make global path planning to determine the rough sweep route and start work. If the robot detects an obstacle that does not match the pre-stored map during the work, it will use the local path planning algorithm to choose the optimal route and avoid impacting the obstacle, so that your floor will be thoroughly cleaned.
+  Users only need to place the robot in their room, where it automatically scans the surrounding environment of the room by the **LIDAR** and builds a grid map. After the map is built, the robot will make global path planning to determine the rough sweep route and start work. If the robot detects an obstacle that does not match the pre-stored map during the work, it will use the local path planning algorithm to choose the optimal route and avoid impacting the obstacle, so that your floor will be thoroughly cleaned.
 
 Hands-free, let the robot clean your floor!
 
