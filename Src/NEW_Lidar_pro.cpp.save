@@ -10,7 +10,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui_c.h>
 #include <thread>
-#include <string>
+
 
 #include "kdtree.h"
 #include "Display.h"
@@ -20,6 +20,7 @@
 #include "UDP.h"
 #include "DFS_Path.h"
 #include "Motor_Driver.h"
+#include "GPIO.hpp"
 #define PI acos(-1)
 
 #ifndef _countof
@@ -43,15 +44,6 @@ static inline void delay(_word_size_t ms) {
 
 using namespace rp::standalone::rplidar;
 using namespace std;
-
-
-int START_GPIO()
-{
- system("./GPIO");
- cout<<" Start GPIO "<<endl;
- return 0;
-}
-
 bool checkRPLIDARHealth(RPlidarDriver * drv)
 {
 	u_result     op_result;
@@ -239,7 +231,6 @@ int main()
 	double  duration;
 	int i = 0;
 	bool MCL_ready = 0;
-	string command="";
 	cv::Mat pic(1000, 1000, CV_8UC1, cv::Scalar(round(255 * 0.5)));
 
 	thread th0(UDP,ref(RealAngle));
@@ -282,10 +273,9 @@ int main()
 			th3.detach();
 			thread th4(DWA_MAIN_loop, ref(nowset), ref(positionX), ref(positionY), ref(list_target), ref(RealAngle), ref(targetAngle));
 			th4.detach();
-                        thread th5(Motor_Driver, ref(positionX),ref(positionY),ref(RealAngle),ref(targetAngle),ref(list_target),ref(command));
+                        thread th5(Motor_Driver, ref(positionX),ref(positionY),ref(RealAngle),ref(targetAngle),ref(list_target));
 			th5.detach();
-			thread th6(START_GPIO);
-			th6.detach();
+			thread th6()
 			thread_start = 0;
 
 		}
