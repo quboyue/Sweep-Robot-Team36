@@ -5,7 +5,9 @@ using namespace std;
 int DFS_search(vector<vector<int>> &list_target, vector<vector<int>> &Map);
 int DFS_loop(float &positionX, float &positionY,cv::Mat &pic, vector<vector<int>> &list_target)
 {
-
+//	cv::namedWindow("DFS", CV_WINDOW_NORMAL);
+//	cv::resizeWindow("DFS", 450, 450);
+//	cv::moveWindow("DFS", 0, 450);
 
 	cv::Mat local_map;
 	vector<vector<int>> Map(50, vector<int>(50));
@@ -16,6 +18,7 @@ int DFS_loop(float &positionX, float &positionY,cv::Mat &pic, vector<vector<int>
 	int starty;
 	int blur_size = 20;
 
+//	cout<<" here 1"<<endl;
 	while (1)
 	{
 		list_accessilbe.clear();
@@ -60,6 +63,10 @@ int DFS_loop(float &positionX, float &positionY,cv::Mat &pic, vector<vector<int>
 		return 0;
 	}
 
+//	cout<<"  DFS-- Running len list_target "<<list_target.size()<<endl;
+
+//	cv::imshow("DFS", local_map);
+//	cv::waitKey(1);
 
 
  }
@@ -81,7 +88,12 @@ int DFS_search(vector<vector<int>> &list_target, vector<vector<int>> &Map)
 		if (std::find(list_target.begin(), list_target.end(), push) == list_target.end())
 		{
 			list_target.push_back(push);
-
+			/*
+			cout<<" push_back" << list_target[i][0] - 1 << "   " << list_target[i][1] << endl;
+			for (int xx = 0; xx < list_target.size(); xx++)
+			cout << list_target[xx][0] << " " << list_target[xx][1] << endl;
+			cout << "-----------------------------------" << endl;
+			*/
 			DFS_search(list_target, Map);
 
 		}
