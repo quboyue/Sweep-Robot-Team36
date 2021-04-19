@@ -9,7 +9,7 @@
 std::mutex MTX;
 
 using namespace std;
-
+//stand alone
 
 int GPIO_loop(string &command)
 {
