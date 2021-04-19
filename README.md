@@ -217,7 +217,8 @@ Project is distributed under [MIT License](https://github.com/quboyue/Sweep-Robo
 ## Social-Media
  Follow our social channels to keep up to date with our branding.
  - [Youtube](https://www.youtube.com/watch?v=rYhGWg9WMtA)  
- - [Bilibili](https://www.bilibili.com/video/BV1k64y1m7D2/)
+ - [Bilibili](https://www.bilibili.com/video/BV1k64y1m7D2/)  
+ - [Twitter](https://twitter.com/GanTian10640151)
 
 
 ## Contact
