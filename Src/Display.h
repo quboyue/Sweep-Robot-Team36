@@ -16,4 +16,4 @@ using namespace std;
 extern std::mutex MTX;
 #define PI acos(-1)
 
-void DDA_line(float &Startx, float &Starty, float &heading, vector<float> &thetas, vector<float> &dists,cv::Mat &pic);
+void DDA_line(float &Startx, float &Starty, vector<float> &thetas, vector<float> &dists,cv::Mat &pic,bool &MCL_ready);

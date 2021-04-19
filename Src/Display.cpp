@@ -1,108 +1,86 @@
-
+#include <opencv2/highgui/highgui_c.h>
 #include "Display.h"
 using namespace cv;
 std::mutex MTX;
-void DDA_line(float &Startx, float &Starty, float &RealAngle, vector<float> &thetas, vector<float> &dists,Mat &pic)
+void DDA_line(float &Startx, float &Starty, vector<float> &thetas, vector<float> &dists,Mat &pic,bool &MCL_ready)
 {
+//	cv::namedWindow("Mapping", CV_WINDOW_NORMAL);
+//	cv::resizeWindow("Mapping", 450, 450);
+//	cv::moveWindow("Mapping", 450, 0);
 
-	cv::namedWindow("Mapping", CV_WINDOW_NORMAL);
-	cv::resizeWindow("Mapping", 600, 600);
-	cv::moveWindow("Mapping", 600, 0);
-
-
-	
-		// cv::Mat img = cv::Mat::zeros(w, h, CV_8UC1);
-	Mat r(pic.rows, pic.cols, CV_32FC1);
-	Mat g(pic.rows, pic.cols, CV_32FC1);
-	Mat b(pic.rows, pic.cols, CV_32FC1);
-	Mat out[] = { b,g,r };
 	float  Endx, Endy;
 	float length, angle;
 	float x, y, xincre, yincre;
-	int ix, iy;
 	float point = 0;
-	//std::cout << "DDA_thread--------------------------" << thetas.size() << endl;
 	int frames = 0;
-	//while (1)
-	if(1)
+
+	while (1)
 	{
-		///cout << heading << "  heading" << endl;
-		MTX.lock();
-		vector<float> Lthetas = thetas;
-		vector<float> Ldists = dists;
-		MTX.unlock();
-
-		//ofstream outfile(to_string(frames) + ".txt");
-		//outfile << Startx << "  " << Starty << endl;
-		for (int i = 0; i < Lthetas.size(); i++)
+		cv::waitKey(100);
+//		cout<<" DDA_Line Running "<<MCL_ready<<endl;
+		if (MCL_ready) 
 		{
+	
+			Mat G_channel(1000, 1000, CV_8UC1, cv::Scalar(0));
+			Mat R_channel(1000, 1000, CV_8UC1, cv::Scalar(0));
+			MTX.lock();
+			vector<float> Lthetas = thetas;
+			vector<float> Ldists = dists;
+			MTX.unlock();
 
-			//std::cout << "DDA_thread" <<i<< endl;
-			angle = Lthetas[i];//- RealAngle;
-			length = Ldists[i];
-			Endx = round(length * sin(angle* PI / 180) + Startx);
-			Endy = round(length * cos(angle* PI / 180) + Starty);
-			x = Startx;
-			y = Starty;
-			int k = abs(Endx - x);
-			if (abs(Endy - y) > k)
+			MTX.lock();
+	
+			for (int i = 0; i < Lthetas.size(); i++)
 			{
-				k = abs(Endy - y);
-			}
-			xincre = (float)(Endx - x) / k;
-			yincre = (float)(Endy - y) / k;
-			Point p(round(y), round(x));//!研究下xy的坐标怎么回事
-										//这里我对调了xy！！！
-			circle(pic, p, 3, Scalar(pic.at<Vec3b>(round(y), round(x))[0], pic.at<Vec3b>(round(y), round(x))[1], 255), -1);
-			
-			for (int i = 0; i < k; i++)
-			{
-				x = x + xincre;
-				y = y + yincre;
-				ix = round(x);
-				iy = round(y);
-				if (ix != Endx && iy != Endy)
+				angle = Lthetas[i];
+				length = Ldists[i];
+				Endx = round(length * sin(angle* PI / 180) + Startx);
+				Endy = round(length * cos(angle* PI / 180) + Starty);
+				x = Startx;
+				y = Starty;
+				int k = abs(Endx - x);
+				if (abs(Endy - y) > k)
 				{
-					point = pic.at<Vec3b>(ix, iy)[0] / 255;
-					point += log(0.3 / (1 - 0.3));
-					pic.at<Vec3b>(ix, iy)[0] = point * 255;
+					k = abs(Endy - y);
 				}
+				xincre = (float)(Endx - x) / k;
+				yincre = (float)(Endy - y) / k;
+		
+				//这里我对调了xy！！！
+				circle(R_channel, Point(round(y), round(x)), 3, Scalar(255), -1);
+				for (int i = 0; i < k; i++)
+				{
+					x = x + xincre;
+					y = y + yincre;
+					//这里没做函数越界检查 一般不会越界 除非定位错了
+					if (round(x) != Endx &&  round(y) != Endy)
+					{
+						point = pic.at<uchar>(round(x), round(y))/ 255.0;
+						point += log(0.3 / (1 - 0.3));
+						if (point < 0) point = 0;
+						pic.at<uchar>(round(x), round(y)) = point * 255;
+					}
+				}
+	
+				point = pic.at<uchar>(Endx, Endy) / 255.0;
+				point += log(0.7 / (1 - 0.7));
+				if (point < 0) point = 0;
+				pic.at<uchar>(Endx, Endy)= point * 255;
+				G_channel.at<uchar>(Endx, Endy)= 255;
 			}
-			
-			point = pic.at<Vec3b>(Endx, Endy)[0] / 255;
-			point += log(0.7 / (1 - 0.7));
-			pic.at<Vec3b>(Endx, Endy)[0] = point * 255;
-			pic.at<Vec3b>(Endx, Endy)[1] =  255;
-			//outfile << Endx << " " << Endy << endl;
+			MTX.unlock();
 
-			//
-			
-		}
-		//outfile.close();
-		//frames += 1;
-		//split(pic, out);
-		//b = out[0];
-
-
-		imshow("Mapping",pic);
-		if (waitKey(5) == 27)
-		{
-			imwrite("test.png", pic);
-			std::cout << "保存图片" << endl;
-			return;
-
-		}
-		MTX.lock();
-		for (int i = 0; i < 1000; i++) 
-		{
-			for (int j = 0; j < 1000; j++) {
-				pic.at<Vec3b>(i,j)[1] = 0;
+			vector<Mat> MergeList = { pic,G_channel,R_channel };
+			Mat MergePic;
+			cv::merge(MergeList, MergePic);
+			//cv::imshow("Mapping", MergePic);
+			if (waitKey(100) == 27)
+			{
+				imwrite("test3.png", MergePic);
+				std::cout << "Save pic" << endl;
+				return;
 			}
+
 		}
-		MTX.unlock();
-
-
-
 	}
-
 }
