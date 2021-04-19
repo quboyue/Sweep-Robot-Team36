@@ -5,7 +5,7 @@ compile:
 ```  
        mkdir build && cd build
        cmake ..
-        make    
+       make    
 ```  
 
   If you need to compile details, please check CMakeLists.txt
