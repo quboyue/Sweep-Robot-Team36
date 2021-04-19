@@ -1,4 +1,0 @@
-/home/pi/quboyue/rasp_LIDAR - full/LIDAR_rpi/build/CMakeFiles/rebuild_cache.dir
-/home/pi/quboyue/rasp_LIDAR - full/LIDAR_rpi/build/CMakeFiles/edit_cache.dir
-/home/pi/quboyue/rasp_LIDAR - full/LIDAR_rpi/build/CMakeFiles/main.dir
-/home/pi/quboyue/rasp_LIDAR - full/LIDAR_rpi/build/CMakeFiles/GPIO.dir
