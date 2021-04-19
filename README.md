@@ -171,7 +171,8 @@ Future plans:
   2. install wiringPi  
    ```  
    Note: the wiringpi used in the project is 64 bit version.   
-   If you use the official image of raspberry pie, wiringpi has been pre installed and can be used       directly.
+   If you use the official image of raspberry pie, wiringpi has been pre installed and can be used directly.  
+   
      git clone https://github.com/WiringPi/WiringPi.git
      cd ./WiringPi
      ./build
