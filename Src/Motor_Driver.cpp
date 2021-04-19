@@ -5,9 +5,18 @@
 #include "Motor_Driver.h"
 #include <arpa/inet.h>
 #include <string>
+#include <fstream>
 using namespace std;
-int Motor_Driver(float &positionX, float &positionY, float &RealAngle,float &targetAngle,vector<vector<int>> &list_target)
+int Motor_Driver(float &positionX, float &positionY, float &RealAngle,float &targetAngle,vector<vector<int>> &list_target,string &command)
 {
+	cv::waitKey(3000);
+	ofstream out_dfs("DFS.txt");
+	for(int i=0;i<list_target.size();i++)
+	{
+	out_dfs<<list_target[i][0]<<" "<<list_target[i][1]<<endl;
+
+	}
+	out_dfs.close();
 
 	int srv_sd, cli_sd, ret;
 	if ((srv_sd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
@@ -33,22 +42,25 @@ int Motor_Driver(float &positionX, float &positionY, float &RealAngle,float &tar
 
 	while (1)
 	{
-		//MTX.lock();
-		//heading=RealAngle;
-		//MTX.unlock();
-		cv::waitKey(50);
+
 		while (1) //until turn to target
 		{
-			send_data="Heading:"+to_string(RealAngle)+" TargetAngle:"+to_string(targetAngle)+" PositionX:"+to_string(positi$
-                	//cout<<send_data<<endl;
+//			MTX.lock();
+			send_data="Heading:"+to_string(RealAngle)+" TargetAngle:"+to_string(targetAngle)+" PositionX:"+to_string(positionX)+" PositionY:"+to_string(positionY)+" TargetX:"+to_string(list_target[0][0])+" TargetY:"+to_string(list_target[0][1])+" ";
+			//for(int i=0;i<list_target.size();i++)
+			//	send_data+=to_string(list_target[i][0])+":"+to_string(list_target[i][1])+"-";
+			send_data+=" ";
+			send_data+=to_string(list_target.size());
+			send_data+=" ";
+//			MTX.unlock();
         	        send_data.copy(pc_buff,send_data.size(),0);
 	                sendto(sock_fd2, pc_buff,512, 0, (struct sockaddr *)&svr_addr, sizeof(svr_addr));
-
+			cout<<" Motor Driver-- send"<<endl;
 			cv::waitKey(50);
 			float angleDist = RealAngle - targetAngle;
 			if (angleDist > 180) angleDist =  angleDist-360;
 			if (angleDist < -180) angleDist = 360 + angleDist;
-			cout<<"  Motor_Driver--  heading "<<RealAngle<<" Target "<<targetAngle<<" DIST  "<<angleDist<<endl;
+//			cout<<"  Motor_Driver--  heading "<<RealAngle<<" Target "<<targetAngle<<" DIST  "<<angleDist<<endl;
 
 			if (angleDist > 4 || angleDist < -4)
 			{
